@@ -1,0 +1,322 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % seperation between body and page edge from the top
+    bottom=2 cm, % seperation between body and page edge from the bottom
+    left=2 cm, % seperation between body and page edge from the left
+    right=2 cm, % seperation between body and page edge from the right
+    footskip=1.0 cm, % seperation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 0, 0} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Yiwei's Resume},
+    pdfauthor={Yiwei Liu},
+    pdfcreator={LaTeX},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generate pdf is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    \usepackage[T1]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+\usepackage{charter}
+
+% Some settings:
+\raggedright
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0.15cm} % set column seperation
+\pagenumbering{gobble} % no page numbering
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\small$\bullet$}}$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0 cm + 0.00001 cm
+    }{
+        0 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{threecolentry}[3][]{
+    \onecolentry
+    \def\thirdColumn{#3}
+    \setcolumnwidth{, \fill, 4.5 cm}
+    \begin{paracol}{3}
+    {\raggedright #2} \switchcolumn
+}{
+    \switchcolumn \raggedleft \thirdColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for three column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+        \LenToUnit{\paperwidth-2 cm-0 cm+0.05cm},
+        \LenToUnit{\paperheight-1.0 cm}
+    ){\vtop{{\null}\makebox[0pt][c]{
+        \small\color{gray}\textit{Last updated in September 2024}\hspace{\widthof{Last updated in September 2024}}
+    }}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{$|$}
+
+    \begin{header}
+        \fontsize{25 pt}{25 pt}\selectfont Yiwei Liu
+
+        \vspace{5 pt}
+
+        \normalsize
+        \mbox{Toronto, ON}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{mailto:123lyw321@gmail.com}{123lyw321@gmail.com}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{tel:+1-519-765-7889}{519-765-7889}}%
+        \kern 5.0 pt%
+        \AND%
+        \kern 5.0 pt%
+        \mbox{\hrefWithoutArrow{https://www.linkedin.com/in/liu-yiwei}{linkedin.com/in/liu-yiwei}}%
+        \kern 5.0 pt%
+    \end{header}
+
+    \vspace{5 pt - 0.3 cm}
+
+
+    \section{Education}
+
+        \begin{twocolentry}{
+            Sept 2020 – May 2025
+        }
+            \textbf{University of Waterloo}, BS in Computer Science (AI Specialist)\end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item GPA: 88/100, obtained Academic Excellent Standing and Term Distinction for all terms
+                \item \textbf{Awards:} President’s Scholarship of Distinction in 2021
+                \item \textbf{Coursework:} Machine Learning, Artificial Intelligence, Application Development, Computer Networks
+            \end{highlights}
+        \end{onecolentry}
+
+
+
+    
+    \section{Experience}
+
+
+
+        
+        \begin{twocolentry}{
+            May 2022 – Aug 2022
+        }
+            \textbf{Software Engineer Intern, NielsenIQ -- Pytorch, Tenserflow, Docker, Azure AI}\end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a recommendation algorithm using word vectorization and comparative models, enhancing product suggestions based on user interactions
+                \item Engineered a multi-layer neural network for product classification, improving accuracy through data cleaning and model optimization
+                \item Built and tested MLOps tools like early stopping and grid optimization within a Python library for automated model training
+                \item Contributed to the development of "NIQ Ask Arthur," a generative AI tool designed to simplify data interpretation and accelerate insights through conversational data exploration
+            \end{highlights}
+        \end{onecolentry}
+        
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+            Jan 2023 – Aug 2023
+        }
+            \textbf{Software Developer Intern, NielsenIQ -- Dijango, Pandas Jenkins, MS Azure} \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Collaborated with a team to develop a web application, enabling users to visually validate and analyze stored data on Microsoft Azure
+                \item Designed and implemented data access and logging systems with secure storage solutions to safeguard user and data integrity
+                \item Optimized the UI/UX to enhance user onboarding and guidance, particularly for first-time users, ensuring a streamlined and intuitive experience
+                \item Increased data analysis efficiency while minimizing data exposure risks by isolating user environments from real datasets, maintaining strict data protection protocols
+            \end{highlights}
+        \end{onecolentry}
+
+
+    
+    \section{Projects}
+
+
+
+        
+        \begin{twocolentry} {
+        \textbf{Android, AWS, MangoDB}
+        }
+            \textbf{Calendar App}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                 Developed an AI-powered Android calendar application with advanced event management capabilities, allowing users to mark important moments, track moods, and interact with an embedded LLM for task summaries, event milestones, and to-do list generation
+
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry} {
+        \textbf{Pytorch, Sk-learn, Numpy}
+        }
+            \textbf{PlantTraits2024 - FGVC11}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                Participated in the PlantTraits2024 - FGVC11 project, leveraging Convolutional Neural Networks to predict plant traits from citizen science photographs and ancillary data, enhancing AI's capability to analyze climate, soil, and satellite information for accurate plant property identification
+            \end{highlights}
+        \end{onecolentry}
+
+
+        \vspace{0.2 cm}
+
+        \begin{twocolentry} {
+            \textbf{PyTTSx3, OpenCV}
+        }
+            \textbf{Accessibility Solutions}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                 Released accessibility software, including color-blind filters and screen readers, improving digital device usability for visually impaired users, benefiting over 500 individuals in the community.
+            \end{highlights}
+        \end{onecolentry}
+
+
+
+    
+    \section{Proficiency}
+
+
+
+        
+        \begin{onecolentry}
+            \textbf{Languages:} Python, Kotlin, Java, C++/C, SQL, Bash
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Tools \& Platforms:} Microsoft Azure, AWS, Git, MangoDB, Docker, Jenkins
+        \end{onecolentry}
+
+         \vspace{0.2 cm}
+
+        \begin{onecolentry}
+            \textbf{Skills:} Problem-Solving, Collaboration, Adaptability, Communication, Time Management, Attention to Detail
+        \end{onecolentry}
+    
+
+\end{document}
